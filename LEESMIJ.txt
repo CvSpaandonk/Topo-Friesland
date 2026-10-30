@@ -1,0 +1,15 @@
+TOPO TRAINER FRIESLAND 2.9 – MOBIELE GITHUB UPLOAD
+
+Deze versie bevat GEEN submappen.
+Upload alle bestanden los naar de root van je GitHub-repository:
+
+- index.html
+- manifest.webmanifest
+- service-worker.js
+- icon-180.png
+- icon-192.png
+- icon-512.png
+- LEESMIJ.txt
+
+Daarna committen naar main en GitHub Pages instellen op:
+Deploy from a branch > main > /(root)
