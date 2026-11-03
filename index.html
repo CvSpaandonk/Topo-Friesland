@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>Topo Trainer Friesland 2.10</title>
+<title>Topo Trainer Friesland 2.15</title>
 <style>
 :root {
   --bg:#f3f7f8; --panel:#fff; --text:#1d2632; --muted:#6b7280;
@@ -220,6 +220,109 @@ button.secondary { background:#e8edf3; color:#263242; }
   background:rgba(122,86,199,.22);
 }
 
+
+header {
+  position:relative;
+  padding-right:48px;
+}
+.helpButton {
+  position:absolute;
+  top:0;
+  right:0;
+  width:38px;
+  height:38px;
+  padding:0;
+  border-radius:50%;
+  background:#e8edf3;
+  color:#263242;
+  font-size:1.25rem;
+  font-weight:900;
+  line-height:38px;
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.helpButton:active { filter:brightness(.94); }
+.helpOverlay {
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.58);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:1001;
+}
+#helpToggle:checked ~ .helpOverlay { display:flex; }
+.helpCard {
+  width:min(620px,100%);
+  max-height:min(82vh,760px);
+  overflow:auto;
+  background:#fff;
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 20px 50px rgba(0,0,0,.28);
+  text-align:left;
+}
+.helpHeader {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+.helpHeader h2 {
+  margin:0;
+  font-size:1.35rem;
+}
+.helpCloseIcon {
+  flex:0 0 auto;
+  width:34px;
+  height:34px;
+  padding:0;
+  border-radius:50%;
+  background:#e8edf3;
+  color:#263242;
+  font-size:1.45rem;
+  line-height:32px;
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.helpSection {
+  border-top:1px solid var(--line);
+  padding-top:12px;
+  margin-top:12px;
+}
+.helpSection h3 {
+  margin:0 0 6px;
+  font-size:1rem;
+}
+.helpSection p {
+  margin:6px 0;
+  color:#3f4a59;
+  line-height:1.45;
+  font-size:.94rem;
+}
+.helpCloseButton {
+  display:block;
+  width:100%;
+  margin-top:16px;
+  box-sizing:border-box;
+  border:0;
+  border-radius:11px;
+  padding:11px 13px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:800;
+  font-size:1rem;
+  cursor:pointer;
+  text-align:center;
+  user-select:none;
+  -webkit-user-select:none;
+}
 .completionOverlay {
   position:fixed; inset:0; background:rgba(15,23,42,.55); display:none;
   align-items:center; justify-content:center; padding:20px; z-index:998;
@@ -256,6 +359,12 @@ button.secondary { background:#e8edf3; color:#263242; }
   .app { padding:11px; }
   .legend { grid-template-columns:1fr 1fr; }
 }
+
+
+.verticalName{
+  transform-origin:center center;
+  white-space:nowrap;
+}
 </style>
 
 <meta name="theme-color" content="#176fb3">
@@ -271,12 +380,12 @@ button.secondary { background:#e8edf3; color:#263242; }
 <input checked="" class="stateInput" id="learnedOnlyToggle" type="checkbox"/>
 <input class="stateInput" id="modeQuiz" name="mode" type="radio"/>
 <input checked="" class="stateInput" id="modeLearn" name="mode" type="radio"/>
-<div class="app">
+<input class="stateInput" id="helpToggle" type="checkbox"/><div class="app">
 <header>
 <h1>Topo Trainer – Friesland</h1>
 <div class="subtitle">Plaatsen, wateren, eilanden en streken leren en overhoren op een kale kaart.</div>
-<div class="versionNumber">Versie 2.10</div>
-</header>
+<div class="versionNumber">Versie 2.15</div>
+<label aria-label="Help openen" class="helpButton" for="helpToggle" id="helpButton">?</label></header>
 <section class="card controls">
 <div class="toggles">
 <label class="toggleRow namesToggleRow" for="namesToggle">
@@ -374,7 +483,7 @@ button.secondary { background:#e8edf3; color:#263242; }
 <div class="reveal reveal-water" data-key="water-noordzee" style="left:36.0%;top:8.5%;transform:translate(-50%,-50%) rotate(0deg);">N O O R D Z E E</div>
 <input class="spotCheck" id="spot-water-waddenzee" tabindex="-1" type="checkbox"/>
 <label aria-label="Waddenzee" class="hotspot hotspot-water" data-key="water-waddenzee" data-name="Waddenzee" for="spot-water-waddenzee" style="left:33.5%;top:34.0%"></label>
-<div class="reveal reveal-water" data-key="water-waddenzee" style="left:33.2%;top:37.9%;transform:translate(-50%,-50%) rotate(62deg);">W a d d e n z e e</div>
+<div class="reveal reveal-water verticalName" data-key="water-waddenzee" style="left:33.5%;top:34.0%;transform:translate(-50%,-50%) rotate(-58deg);">W a d d e n z e e</div>
 <input class="spotCheck" id="spot-water-lauwersmeer" tabindex="-1" type="checkbox"/>
 <label aria-label="Lauwersmeer" class="hotspot hotspot-water" data-key="water-lauwersmeer" data-name="Lauwersmeer" for="spot-water-lauwersmeer" style="left:76.8%;top:20.7%"></label>
 <div class="reveal reveal-water" data-key="water-lauwersmeer" style="left:74.5%;top:24.6%;transform:translate(-50%,-50%) rotate(0deg);">Lauwersmeer</div>
@@ -574,6 +683,36 @@ button.secondary { background:#e8edf3; color:#263242; }
 <button class="secondary" id="selectNone" type="button">Alles uit</button>
 </div>
 </aside>
+</div>
+</div>
+<div aria-labelledby="helpTitle" aria-modal="true" class="helpOverlay" id="helpOverlay" role="dialog">
+<div class="helpCard">
+<div class="helpHeader">
+<h2 id="helpTitle">Hoe werkt Topo Trainer?</h2>
+<label class="helpCloseIcon" for="helpToggle" id="closeHelpTop">×</label>
+</div>
+<div class="helpSection">
+<h3>Leerstand</h3>
+<p><strong>Namen op kaart</strong> toont of verbergt alle topografienamen. Tik je op een gekleurde stip of een vlak, dan wordt die naam ook afzonderlijk zichtbaar.</p>
+<p>Vink onder <strong>Geleerde topografie</strong> aan wat Lewis al kent. Als de namen op de kaart zichtbaar zijn, worden geleerde onderdelen niet meer ingekleurd. Zo zie je snel wat nog geleerd moet worden.</p>
+</div>
+<div class="helpSection">
+<h3>Overhoren</h3>
+<p>In Overhoren zijn de namen altijd verborgen. Bij <strong>Alleen uit geleerde lijst</strong> worden alleen de aangevinkte onderdelen gevraagd. Staat die schakelaar uit, dan kan alle topografie worden gevraagd.</p>
+<p>Een onderdeel komt normaal maar één keer per ronde langs. Kies je fout, dan blijft dezelfde vraag staan tot het goede antwoord is gekozen en komt dat onderdeel later in dezelfde ronde nog eens terug.</p>
+<p>Na <strong>3 foute keuzes</strong> wordt de juiste topo tijdelijk zichtbaar als hulp.</p>
+</div>
+<div class="helpSection">
+<h3>Ronde en score</h3>
+<p>Bij 10 of meer gekozen onderdelen verschijnt na een volledige ronde een melding als alles is beantwoord, inclusief de fout-herhalingen. Bij minder dan 10 onderdelen wordt eerst doorgevraagd tot minimaal 10 vragen zijn afgerond.</p>
+<p><strong>Doorgaan</strong> gaat daarna verder met nieuwe rondes. <strong>Stoppen</strong> toont direct het eindcijfer. Met <strong>Einde</strong> kun je op ieder moment stoppen en het resultaat bekijken.</p>
+<p><strong>Nieuwe vraag</strong> slaat de huidige topo niet definitief over; die kan later terugkomen.</p>
+</div>
+<div class="helpSection">
+<h3>Legenda</h3>
+<p>Bruin = plaatsen, blauw = wateren, geel = streken en paars = eilanden. De vier vakjes bovenaan zijn alleen een legenda en geen filters.</p>
+</div>
+<label class="helpCloseButton" for="helpToggle" id="closeHelp">Sluiten</label>
 </div>
 </div>
 <div aria-labelledby="completionTitle" aria-modal="true" class="completionOverlay" id="completionOverlay" role="dialog">

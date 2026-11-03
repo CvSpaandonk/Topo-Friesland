@@ -1,10 +1,7 @@
-TOPO TRAINER FRIESLAND 2.10 – MOBIELE GITHUB UPLOAD
+TOPO TRAINER FRIESLAND 2.15 – MOBIELE GITHUB/PWA UPLOAD
 
-Bugfix:
-- De overhoring gebruikt nu de Friesland-items uit de lijst 'Geleerde topografie'.
-- De vier categorieën bovenaan zijn alleen legenda en geen filter.
+Upload alle bestanden los naar de root van je bestaande GitHub-repository:
 
-Upload alle bestanden los naar de root van de bestaande GitHub-repository:
 - index.html
 - manifest.webmanifest
 - service-worker.js
@@ -14,4 +11,9 @@ Upload alle bestanden los naar de root van de bestaande GitHub-repository:
 - LEESMIJ.txt
 
 Vervang de oude bestanden en commit naar main.
-GitHub Pages blijft: Deploy from a branch > main > /(root)
+
+GitHub Pages:
+Deploy from a branch > main > /(root)
+
+Cacheversie:
+topo-trainer-friesland-2-15
