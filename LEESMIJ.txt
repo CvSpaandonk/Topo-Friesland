@@ -1,9 +1,11 @@
-TOPO TRAINER FRIESLAND 3.1 – MOBIELE GITHUB/PWA UPLOAD
+TOPO TRAINER FRIESLAND 3.2 – MOBIELE GITHUB/PWA UPLOAD
 
-Nieuw in 3.1:
-- In Schrijven staat het compacte antwoordvak direct bij de gemarkeerde topo.
-- Bij topo's onderaan springt het vak automatisch erboven zodat het binnen de kaart blijft.
-- Enter en OK controleren het antwoord.
+Nieuw in 3.2:
+- In Schrijven is autocomplete uitgeschakeld.
+- Autocorrectie is uitgeschakeld.
+- Spellingcontrole is uitgeschakeld.
+- Automatische hoofdletters zijn uitgeschakeld.
+- Writing suggestions zijn uitgeschakeld waar iOS/Safari dit respecteert.
 
 Upload alle bestanden los naar de root van de bestaande GitHub-repository:
 - index.html
@@ -17,4 +19,4 @@ Upload alle bestanden los naar de root van de bestaande GitHub-repository:
 Vervang de oude bestanden en commit naar main.
 
 Cacheversie:
-topo-trainer-friesland-3-1
+topo-trainer-friesland-3-2

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>Topo Trainer Friesland 3.1</title>
+<title>Topo Trainer Friesland 3.2</title>
 <style>
 :root {
   --bg:#f3f7f8; --panel:#fff; --text:#1d2632; --muted:#6b7280;
@@ -508,7 +508,7 @@ header {
 <header>
 <h1>Topo Trainer – Friesland</h1>
 <div class="subtitle">Plaatsen, wateren, eilanden en streken leren en overhoren op een kale kaart.</div>
-<div class="versionNumber">Versie 3.1</div>
+<div class="versionNumber">Versie 3.2</div>
 <label aria-label="Help openen" class="helpButton" for="helpToggle" id="helpButton">?</label></header>
 <section class="card controls">
 <div class="toggles">
@@ -554,7 +554,6 @@ header {
 <strong id="questionText">Druk op ‘Nieuwe vraag’.</strong>
 </div>
 </div>
-
 <div class="quizActions">
 <button id="newQuestion" type="button">Nieuwe vraag</button>
 <button class="secondary" id="endQuiz" type="button">Einde</button>
@@ -665,7 +664,7 @@ header {
 <input class="spotCheck" id="spot-streek-gaasterland" tabindex="-1" type="checkbox"/>
 <label aria-label="Gaasterland" class="hotspot hotspot-region" data-key="streek-gaasterland" data-name="Gaasterland" for="spot-streek-gaasterland" style="left:44.6%;top:85.6%"></label>
 <div class="reveal reveal-region" data-key="streek-gaasterland" style="left:45.4%;top:85.0%;transform:translate(-50%,-50%) rotate(0deg);">G a a s t e r l a n d</div><div class="writePanel" id="writePanel">
-<input autocapitalize="words" autocomplete="off" id="answerInput" placeholder="Typ de naam" spellcheck="false" type="text"/>
+<input autocapitalize="none" autocomplete="off" autocorrect="off" enterkeyhint="done" id="answerInput" placeholder="Typ de naam" spellcheck="false" type="text" writingsuggestions="false"/>
 <button aria-label="Antwoord controleren" id="checkAnswer" type="button">OK</button>
 </div></div>
 <div class="small">Legenda: ronde punten zijn plaatsen; bredere vlakken zijn wateren, eilanden of streken. De legenda is alleen ter uitleg en is geen filter.</div>
@@ -840,7 +839,7 @@ header {
 <p><strong>Overhoortype:</strong> bij <strong>Aanwijzen</strong> krijg je een naam en wijs je de juiste plek aan. Bij <strong>Schrijven</strong> wordt een plek gemarkeerd en verschijnt een klein antwoordvak direct bij die plek. <strong>Mix</strong> wisselt beide vraagsoorten door elkaar.</p><p>In Overhoren zijn de namen altijd verborgen. Bij <strong>Alleen uit geleerde lijst</strong> worden alleen de aangevinkte onderdelen gevraagd. Staat die schakelaar uit, dan kan alle topografie worden gevraagd.</p>
 <p>Een onderdeel komt normaal maar één keer per ronde langs. Kies je fout, dan blijft dezelfde vraag staan tot het goede antwoord is gekozen en komt dat onderdeel later in dezelfde ronde nog eens terug.</p>
 <p>Na <strong>3 foute antwoorden</strong> verschijnt extra hulp: bij Aanwijzen wordt de juiste naam zichtbaar en bij Schrijven verschijnt de naam bij de gemarkeerde plek.</p>
-</div>
+<p>In <strong>Schrijven</strong> probeert de app toetsenbordhulp zoals autocorrectie, spellingcontrole en schrijfsuggesties uit te schakelen, zodat het antwoord echt uit het geheugen komt.</p></div>
 <div class="helpSection">
 <h3>Ronde en score</h3>
 <p>Bij 10 of meer gekozen onderdelen verschijnt na een volledige ronde een melding als alles is beantwoord, inclusief de fout-herhalingen. Bij minder dan 10 onderdelen wordt eerst doorgevraagd tot minimaal 10 vragen zijn afgerond.</p>
