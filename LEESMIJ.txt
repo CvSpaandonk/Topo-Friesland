@@ -1,11 +1,8 @@
-TOPO TRAINER FRIESLAND 3.2 – MOBIELE GITHUB/PWA UPLOAD
+TOPO TRAINER FRIESLAND 3.3 – MOBIELE GITHUB/PWA UPLOAD
 
-Nieuw in 3.2:
-- In Schrijven is autocomplete uitgeschakeld.
-- Autocorrectie is uitgeschakeld.
-- Spellingcontrole is uitgeschakeld.
-- Automatische hoofdletters zijn uitgeschakeld.
-- Writing suggestions zijn uitgeschakeld waar iOS/Safari dit respecteert.
+Nieuw in 3.3:
+- Helptekst opnieuw opgemaakt.
+- Elk belangrijk vetgedrukt begrip staat aan het begin van een eigen regel.
 
 Upload alle bestanden los naar de root van de bestaande GitHub-repository:
 - index.html
@@ -16,7 +13,5 @@ Upload alle bestanden los naar de root van de bestaande GitHub-repository:
 - icon-512.png
 - LEESMIJ.txt
 
-Vervang de oude bestanden en commit naar main.
-
 Cacheversie:
-topo-trainer-friesland-3-2
+topo-trainer-friesland-3-3
