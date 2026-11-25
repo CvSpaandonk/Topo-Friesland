@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>Topo Trainer Friesland 2.15</title>
+<title>Topo Trainer Friesland 3.0</title>
 <style>
 :root {
   --bg:#f3f7f8; --panel:#fff; --text:#1d2632; --muted:#6b7280;
@@ -365,6 +365,108 @@ header {
   transform-origin:center center;
   white-space:nowrap;
 }
+
+/* ===== Topo Trainer 3.0: overhoortype ===== */
+.quizTypeWrap {
+  display:none;
+  margin-top:10px;
+}
+#modeQuiz:checked ~ .app .quizTypeWrap {
+  display:block;
+}
+.quizTypeTitle {
+  color:var(--muted);
+  font-size:.78rem;
+  font-weight:800;
+  margin:0 0 5px 2px;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+.quizTypeRow {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+.quizTypeInput {
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+.quizTypeRow label {
+  display:flex;
+  min-height:42px;
+  align-items:center;
+  justify-content:center;
+  padding:7px 8px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  color:#263242;
+  font-weight:800;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+}
+#quizTypePoint:checked + label,
+#quizTypeWrite:checked + label,
+#quizTypeMix:checked + label {
+  background:var(--accent);
+  color:#fff;
+  border-color:var(--accent);
+}
+
+.writePanel {
+  display:none;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:8px;
+  margin-top:8px;
+}
+.writePanel.show {
+  display:grid;
+}
+.writePanel input {
+  min-width:0;
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:11px 12px;
+  background:#fff;
+  color:#17202c;
+  font:inherit;
+  font-size:1rem;
+  outline:none;
+}
+.writePanel input:focus {
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(31,124,184,.13);
+}
+.writePanel button {
+  white-space:nowrap;
+}
+
+/* Neutrale aanwijzing voor 'plek -> naam schrijven' */
+.hotspot.promptTarget {
+  border-color:#111827 !important;
+  background:rgba(255,255,255,.20) !important;
+  box-shadow:
+    0 0 0 4px rgba(255,196,0,.92),
+    0 0 0 7px rgba(17,24,39,.76);
+  filter:none !important;
+  transform:translate(-50%,-50%) scale(1.08);
+}
+.hotspot.promptTarget.correct {
+  border-color:var(--good) !important;
+  background:rgba(23,129,59,.42) !important;
+  box-shadow:0 0 0 4px rgba(23,129,59,.22);
+}
+
+@media(max-width:560px) {
+  .writePanel {
+    grid-template-columns:1fr;
+  }
+  .quizTypeRow label {
+    font-size:.88rem;
+  }
+}
 </style>
 
 <meta name="theme-color" content="#176fb3">
@@ -373,7 +475,6 @@ header {
 <meta name="apple-mobile-web-app-title" content="Topo Trainer Friesland">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
-
 </head>
 <body>
 <input class="stateInput" id="namesToggle" type="checkbox"/>
@@ -384,7 +485,7 @@ header {
 <header>
 <h1>Topo Trainer – Friesland</h1>
 <div class="subtitle">Plaatsen, wateren, eilanden en streken leren en overhoren op een kale kaart.</div>
-<div class="versionNumber">Versie 2.15</div>
+<div class="versionNumber">Versie 3.0</div>
 <label aria-label="Help openen" class="helpButton" for="helpToggle" id="helpButton">?</label></header>
 <section class="card controls">
 <div class="toggles">
@@ -399,6 +500,18 @@ header {
 <label class="modeButton" for="modeQuiz">Overhoren</label>
 <label class="modeButton" for="modeLearn">Leerstand</label>
 </div>
+<div class="quizTypeWrap">
+<div class="quizTypeTitle">Overhoortype</div>
+<div class="quizTypeRow">
+<input checked="" class="quizTypeInput" id="quizTypePoint" name="quizType" type="radio" value="point"/>
+<label for="quizTypePoint">Aanwijzen</label>
+<input class="quizTypeInput" id="quizTypeWrite" name="quizType" type="radio" value="write"/>
+<label for="quizTypeWrite">Schrijven</label>
+<input class="quizTypeInput" id="quizTypeMix" name="quizType" type="radio" value="mix"/>
+<label for="quizTypeMix">Mix</label>
+</div>
+</div>
+
 <div class="legend">
 <div class="legendItem"><span class="legendSwatch place"></span><span>Plaatsen</span></div>
 <div class="legendItem"><span class="legendSwatch water"></span><span>Wateren</span></div>
@@ -419,6 +532,11 @@ header {
 <strong id="questionText">Druk op ‘Nieuwe vraag’.</strong>
 </div>
 </div>
+<div class="writePanel" id="writePanel">
+<input autocapitalize="words" autocomplete="off" id="answerInput" placeholder="Typ de naam" spellcheck="false" type="text"/>
+<button id="checkAnswer" type="button">Controleren</button>
+</div>
+
 <div class="quizActions">
 <button id="newQuestion" type="button">Nieuwe vraag</button>
 <button class="secondary" id="endQuiz" type="button">Einde</button>
@@ -698,9 +816,9 @@ header {
 </div>
 <div class="helpSection">
 <h3>Overhoren</h3>
-<p>In Overhoren zijn de namen altijd verborgen. Bij <strong>Alleen uit geleerde lijst</strong> worden alleen de aangevinkte onderdelen gevraagd. Staat die schakelaar uit, dan kan alle topografie worden gevraagd.</p>
+<p><strong>Overhoortype:</strong> bij <strong>Aanwijzen</strong> krijg je een naam en wijs je de juiste plek aan. Bij <strong>Schrijven</strong> wordt een plek gemarkeerd en typ je de naam. <strong>Mix</strong> wisselt beide vraagsoorten door elkaar.</p><p>In Overhoren zijn de namen altijd verborgen. Bij <strong>Alleen uit geleerde lijst</strong> worden alleen de aangevinkte onderdelen gevraagd. Staat die schakelaar uit, dan kan alle topografie worden gevraagd.</p>
 <p>Een onderdeel komt normaal maar één keer per ronde langs. Kies je fout, dan blijft dezelfde vraag staan tot het goede antwoord is gekozen en komt dat onderdeel later in dezelfde ronde nog eens terug.</p>
-<p>Na <strong>3 foute keuzes</strong> wordt de juiste topo tijdelijk zichtbaar als hulp.</p>
+<p>Na <strong>3 foute antwoorden</strong> verschijnt extra hulp: bij Aanwijzen wordt de juiste naam zichtbaar en bij Schrijven verschijnt de naam bij de gemarkeerde plek.</p>
 </div>
 <div class="helpSection">
 <h3>Ronde en score</h3>
@@ -757,10 +875,18 @@ header {
   const learnedCount = document.getElementById("learnedCount");
   const learnedChecks = Array.from(document.querySelectorAll(".learnCheck"));
   const hotspots = Array.from(document.querySelectorAll(".hotspot"));
+  const quizTypePoint = document.getElementById("quizTypePoint");
+  const quizTypeWrite = document.getElementById("quizTypeWrite");
+  const quizTypeMix = document.getElementById("quizTypeMix");
+  const quizTypeInputs = [quizTypePoint, quizTypeWrite, quizTypeMix];
+  const writePanel = document.getElementById("writePanel");
+  const answerInput = document.getElementById("answerInput");
+  const checkAnswer = document.getElementById("checkAnswer");
 
-  let current = null, previousKey = null, good = 0, bad = 0;
-  let quizQueue = [];        // Normale vragen van de huidige ronde
-  let retryQueue = [];       // Vragen die eerder fout gingen en later terugkomen
+  let current = null, currentEntry = null, currentQuestionType = "point";
+  let previousKey = null, good = 0, bad = 0;
+  let quizQueue = [];        // { item, type }
+  let retryQueue = [];       // { item, type } - zelfde vraagvorm bij herhaling
   let quizPoolSignature = "";
   let currentWasWrong = false;
   let currentIsRetry = false;
@@ -817,6 +943,7 @@ header {
       localStorage.setItem(STORAGE, JSON.stringify({
         namesOn: namesToggle.checked,
         learnedOnly: learnedOnlyToggle.checked,
+        quizType: selectedQuizType(),
         learned: learnedKeys()
       }));
     } catch(e) {}
@@ -847,6 +974,10 @@ header {
       namesToggle.checked = !!s.namesOn;
       learnedOnlyToggle.checked = s.learnedOnly !== false;
 
+      if (s.quizType === "write") quizTypeWrite.checked = true;
+      else if (s.quizType === "mix") quizTypeMix.checked = true;
+      else quizTypePoint.checked = true;
+
       const set = new Set(migrateLearned(s.learned || []));
       learnedChecks.forEach(c => c.checked = set.has(c.dataset.key));
       save();
@@ -868,21 +999,118 @@ header {
     return result;
   }
 
+  function selectedQuizType() {
+    if (quizTypeWrite.checked) return "write";
+    if (quizTypeMix.checked) return "mix";
+    return "point";
+  }
+
+  function pickQuestionType() {
+    const selected = selectedQuizType();
+    if (selected === "mix") return Math.random() < 0.5 ? "point" : "write";
+    return selected;
+  }
+
+  function makeQuestionEntry(item, forcedType) {
+    return {
+      item,
+      type: forcedType || pickQuestionType()
+    };
+  }
+
   function currentPoolSignature(choices) {
-    return choices.map(x => x.key).sort().join("|");
+    return choices.map(x => x.key).sort().join("|") + "::" + selectedQuizType();
   }
 
   function refillQuizQueue(choices) {
-    quizQueue = shuffle(choices);
+    quizQueue = shuffle(choices).map(item => makeQuestionEntry(item));
 
     // Voorkom dat de eerste vraag van een nieuwe ronde meteen
-    // dezelfde is als de laatste vraag van de vorige ronde.
-    if (quizQueue.length > 1 && previousKey && quizQueue[0].key === previousKey) {
-      const swapIndex = quizQueue.findIndex(x => x.key !== previousKey);
+    // dezelfde topo is als de laatste vraag van de vorige ronde.
+    if (quizQueue.length > 1 && previousKey && quizQueue[0].item.key === previousKey) {
+      const swapIndex = quizQueue.findIndex(x => x.item.key !== previousKey);
       if (swapIndex > 0) {
         [quizQueue[0], quizQueue[swapIndex]] = [quizQueue[swapIndex], quizQueue[0]];
       }
     }
+  }
+
+  function clearPromptTarget() {
+    hotspots.forEach(h => h.classList.remove("promptTarget"));
+  }
+
+  function showPromptTarget() {
+    clearPromptTarget();
+    if (!current || currentQuestionType !== "write") return;
+    const h = hotspots.find(x => x.dataset.key === current.key);
+    if (h) h.classList.add("promptTarget");
+  }
+
+  function setWritePanelVisible(show) {
+    writePanel.classList.toggle("show", !!show);
+    if (!show) answerInput.value = "";
+  }
+
+  function normalizeAnswer(value) {
+    return value
+      .toLocaleLowerCase("nl-NL")
+      .trim()
+      .replace(/[‐‑‒–—-]/g, " ")
+      .replace(/\s+/g, " ");
+  }
+
+  function acceptedAnswerFor(item) {
+    // "(plaats)" en "(eiland)" zijn voor de kaart een verduidelijking;
+    // Lewis hoeft bij schrijven alleen de eigenlijke topografische naam te typen.
+    return item.quiz.replace(/\s*\([^)]*\)\s*$/, "");
+  }
+
+  function finishCorrectAnswer() {
+    const targetHotspot = hotspots.find(h => h.dataset.key === current.key);
+    if (targetHotspot) targetHotspot.classList.add("correct");
+
+    good++;
+    updateScore();
+    statusEl.textContent = "Goed! 🎉";
+    statusEl.className = "status good";
+
+    if (currentWasWrong && currentEntry) {
+      retryQueue.push(currentEntry);
+    }
+
+    completedQuestions++;
+
+    if (!completionPopupDone && pool().length < 10 && completedQuestions >= 10) {
+      quizQueue = [];
+    }
+
+    clearQuizHint();
+    setWritePanelVisible(false);
+    current = null;
+    currentEntry = null;
+    currentWasWrong = false;
+    currentIsRetry = false;
+    currentWrongAttempts = 0;
+
+    setTimeout(nextQuestion, 650);
+  }
+
+  function registerWrongAnswer(message) {
+    bad++;
+    currentWasWrong = true;
+    currentWrongAttempts++;
+
+    if (currentWrongAttempts >= 3) {
+      showCurrentQuizHint();
+      statusEl.textContent = currentQuestionType === "write"
+        ? "Drie keer fout. De juiste naam staat nu op de kaart."
+        : "Drie keer fout. Kijk goed: de juiste topo is nu zichtbaar.";
+    } else {
+      statusEl.textContent = message || "Nog niet. Probeer dezelfde vraag nog eens.";
+    }
+
+    updateScore();
+    statusEl.className = "status bad";
   }
 
   function showCompletionPopup(choices) {
@@ -898,8 +1126,14 @@ header {
   function nextQuestion() {
     const choices = pool();
 
+    clearFeedback();
+    clearPromptTarget();
+    clearQuizHint();
+    setWritePanelVisible(false);
+
     if (!choices.length) {
       current = null;
+      currentEntry = null;
       quizQueue = [];
       retryQueue = [];
       quizPoolSignature = "";
@@ -918,18 +1152,15 @@ header {
       quizRoundStarted = false;
     }
 
-    // Eerst de normale vragen van de ronde.
     if (quizQueue.length) {
-      current = quizQueue.shift();
+      currentEntry = quizQueue.shift();
       currentIsRetry = false;
     }
-    // Daarna pas de vragen die eerder fout gingen.
     else if (retryQueue.length) {
-      current = retryQueue.shift();
+      currentEntry = retryQueue.shift();
       currentIsRetry = true;
     }
     else {
-      // Een volledige ronde inclusief alle fout-herhalingen is afgerond.
       if (quizRoundStarted && !completionPopupDone) {
         if (choices.length >= 10 || completedQuestions >= 10) {
           showCompletionPopup(choices);
@@ -937,24 +1168,30 @@ header {
         }
       }
 
-      // Bij minder dan 10 onderdelen starten we zo nodig automatisch
-      // nog een ronde, totdat minimaal 10 vragen zijn afgerond.
       refillQuizQueue(choices);
       quizRoundStarted = true;
-      current = quizQueue.shift();
+      currentEntry = quizQueue.shift();
       currentIsRetry = false;
     }
 
+    current = currentEntry.item;
+    currentQuestionType = currentEntry.type;
     previousKey = current.key;
     currentWasWrong = false;
     currentWrongAttempts = 0;
-    clearQuizHint();
 
-    questionLabel.textContent = learnedOnlyToggle.checked
-      ? "Overhoring · geleerde lijst"
-      : "Overhoring · alles";
+    const scopeText = learnedOnlyToggle.checked ? "geleerde lijst" : "alles";
 
-    questionText.textContent = "Wijs aan: " + current.quiz;
+    if (currentQuestionType === "write") {
+      questionLabel.textContent = "Overhoring · Schrijven · " + scopeText;
+      questionText.textContent = "Welke topo is dit?";
+      showPromptTarget();
+      setWritePanelVisible(true);
+      // Geen autofocus: eerst rustig de kaart bekijken.
+    } else {
+      questionLabel.textContent = "Overhoring · Aanwijzen · " + scopeText;
+      questionText.textContent = "Wijs aan: " + current.quiz;
+    }
   }
 
   hotspots.forEach(h => {
@@ -980,69 +1217,68 @@ header {
         return;
       }
 
-      clearFeedback();
-
       if (!current) {
         nextQuestion();
         return;
       }
 
+      // Bij Schrijven wordt de kaart alleen gebruikt om de doelplek te tonen.
+      // Tikken op andere plekken telt daarom niet als antwoord.
+      if (currentQuestionType === "write") {
+        return;
+      }
+
+      clearFeedback();
+
       if (h.dataset.key === current.key) {
-        h.classList.add("correct");
-        good++;
-        updateScore();
-        statusEl.textContent = "Goed! 🎉";
-        statusEl.className = "status good";
-
-        // Was deze vraag eerder fout beantwoord?
-        // Dan komt hij later opnieuw terug.
-        if (currentWasWrong) {
-          retryQueue.push(current);
-        }
-
-        completedQuestions++;
-
-        // Bij minder dan 10 gekozen topo's stoppen we, zodra 10 vragen
-        // zijn afgerond, met nieuwe gewone vragen. Eventuele fout-herhalingen
-        // worden eerst nog volledig afgewerkt.
-        if (!completionPopupDone && pool().length < 10 && completedQuestions >= 10) {
-          quizQueue = [];
-        }
-
-        clearQuizHint();
-        current = null;
-        currentWasWrong = false;
-        currentIsRetry = false;
-        currentWrongAttempts = 0;
-        setTimeout(nextQuestion, 650);
+        finishCorrectAnswer();
       } else {
         h.classList.add("wrong");
-        bad++;
-        currentWasWrong = true;
-        currentWrongAttempts++;
-
-        if (currentWrongAttempts >= 3) {
-          showCurrentQuizHint();
-          statusEl.textContent = "Drie keer fout. Kijk goed: de juiste topo is nu zichtbaar.";
-        } else {
-          statusEl.textContent = "Nog niet. Probeer dezelfde vraag nog eens.";
-        }
-
-        updateScore();
-        statusEl.className = "status bad";
+        registerWrongAnswer("Nog niet. Probeer dezelfde vraag nog eens.");
       }
     });
   });
 
+  function checkWrittenAnswer() {
+    if (!modeQuiz.checked || !current || currentQuestionType !== "write") return;
+
+    const typed = answerInput.value;
+    if (!typed.trim()) {
+      statusEl.textContent = "Typ eerst een naam.";
+      statusEl.className = "status bad";
+      return;
+    }
+
+    const expected = acceptedAnswerFor(current);
+
+    if (normalizeAnswer(typed) === normalizeAnswer(expected)) {
+      finishCorrectAnswer();
+    } else {
+      registerWrongAnswer("Nog niet. Probeer de naam nog eens.");
+      answerInput.select();
+    }
+  }
+
+  checkAnswer.addEventListener("click", checkWrittenAnswer);
+  answerInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      checkWrittenAnswer();
+    }
+  });
+
   document.getElementById("newQuestion").addEventListener("click", function() {
-    if (current) {
+    if (current && currentEntry) {
       if (currentIsRetry) {
-        retryQueue.push(current);
+        retryQueue.push(currentEntry);
       } else {
-        quizQueue.push(current);
+        quizQueue.push(currentEntry);
       }
       clearQuizHint();
+      clearPromptTarget();
+      setWritePanelVisible(false);
       current = null;
+      currentEntry = null;
       currentWasWrong = false;
       currentIsRetry = false;
       currentWrongAttempts = 0;
@@ -1066,7 +1302,10 @@ header {
     good = 0;
     bad = 0;
     clearQuizHint();
+    clearPromptTarget();
+    setWritePanelVisible(false);
     current = null;
+    currentEntry = null;
     currentWasWrong = false;
     currentIsRetry = false;
     currentWrongAttempts = 0;
@@ -1155,6 +1394,22 @@ header {
     if (modeQuiz.checked) nextQuestion();
   });
 
+  quizTypeInputs.forEach(input => input.addEventListener("change", function() {
+    quizQueue = [];
+    retryQueue = [];
+    quizPoolSignature = "";
+    quizRoundStarted = false;
+    completionPopupDone = false;
+    clearQuizHint();
+    clearPromptTarget();
+    setWritePanelVisible(false);
+    current = null;
+    currentEntry = null;
+    save();
+
+    if (modeQuiz.checked) nextQuestion();
+  }));
+
   modeQuiz.addEventListener("change", function() {
     if (modeQuiz.checked) {
       namesToggle.checked = false;
@@ -1166,6 +1421,10 @@ header {
       completionPopupDone = false;
       completionOverlay.classList.remove("show");
       clearQuizHint();
+      clearPromptTarget();
+      setWritePanelVisible(false);
+      current = null;
+      currentEntry = null;
       currentWrongAttempts = 0;
       syncViewState();
       save();
@@ -1176,6 +1435,10 @@ header {
   modeLearn.addEventListener("change", function() {
     if (modeLearn.checked) {
       clearFeedback();
+      clearPromptTarget();
+      setWritePanelVisible(false);
+      current = null;
+      currentEntry = null;
       document.querySelectorAll(".spotCheck").forEach(c => c.checked = false);
       document.querySelectorAll(".mask.revealed").forEach(m => m.classList.remove("revealed"));
       syncViewState();
@@ -1210,6 +1473,5 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
-
 </body>
 </html>

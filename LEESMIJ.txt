@@ -1,7 +1,6 @@
-TOPO TRAINER FRIESLAND 2.15 – MOBIELE GITHUB/PWA UPLOAD
+TOPO TRAINER FRIESLAND 3.0 – MOBIELE GITHUB/PWA UPLOAD
 
 Upload alle bestanden los naar de root van je bestaande GitHub-repository:
-
 - index.html
 - manifest.webmanifest
 - service-worker.js
@@ -16,4 +15,4 @@ GitHub Pages:
 Deploy from a branch > main > /(root)
 
 Cacheversie:
-topo-trainer-friesland-2-15
+topo-trainer-friesland-3-0
