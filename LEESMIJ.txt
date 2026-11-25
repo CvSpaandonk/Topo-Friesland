@@ -1,6 +1,11 @@
-TOPO TRAINER FRIESLAND 3.0 – MOBIELE GITHUB/PWA UPLOAD
+TOPO TRAINER FRIESLAND 3.1 – MOBIELE GITHUB/PWA UPLOAD
 
-Upload alle bestanden los naar de root van je bestaande GitHub-repository:
+Nieuw in 3.1:
+- In Schrijven staat het compacte antwoordvak direct bij de gemarkeerde topo.
+- Bij topo's onderaan springt het vak automatisch erboven zodat het binnen de kaart blijft.
+- Enter en OK controleren het antwoord.
+
+Upload alle bestanden los naar de root van de bestaande GitHub-repository:
 - index.html
 - manifest.webmanifest
 - service-worker.js
@@ -11,8 +16,5 @@ Upload alle bestanden los naar de root van je bestaande GitHub-repository:
 
 Vervang de oude bestanden en commit naar main.
 
-GitHub Pages:
-Deploy from a branch > main > /(root)
-
 Cacheversie:
-topo-trainer-friesland-3-0
+topo-trainer-friesland-3-1

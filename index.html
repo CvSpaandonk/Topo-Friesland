@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-<title>Topo Trainer Friesland 3.0</title>
+<title>Topo Trainer Friesland 3.1</title>
 <style>
 :root {
   --bg:#f3f7f8; --panel:#fff; --text:#1d2632; --muted:#6b7280;
@@ -416,23 +416,37 @@ header {
 }
 
 .writePanel {
+  position:absolute;
+  z-index:40;
   display:none;
-  grid-template-columns:minmax(0,1fr) auto;
-  gap:8px;
-  margin-top:8px;
+  grid-template-columns:minmax(0,150px) auto;
+  gap:5px;
+  width:max-content;
+  max-width:calc(100% - 12px);
+  padding:5px;
+  border:1px solid rgba(23,32,44,.18);
+  border-radius:10px;
+  background:rgba(255,255,255,.97);
+  box-shadow:0 5px 16px rgba(15,23,42,.22);
+  transform:translate(-50%,0);
 }
 .writePanel.show {
   display:grid;
 }
+.writePanel.above {
+  transform:translate(-50%,-100%);
+}
 .writePanel input {
+  width:150px;
   min-width:0;
+  box-sizing:border-box;
   border:1px solid var(--line);
-  border-radius:11px;
-  padding:11px 12px;
+  border-radius:8px;
+  padding:7px 9px;
   background:#fff;
   color:#17202c;
   font:inherit;
-  font-size:1rem;
+  font-size:.92rem;
   outline:none;
 }
 .writePanel input:focus {
@@ -440,6 +454,10 @@ header {
   box-shadow:0 0 0 3px rgba(31,124,184,.13);
 }
 .writePanel button {
+  min-width:42px;
+  padding:7px 9px;
+  border-radius:8px;
+  font-size:.88rem;
   white-space:nowrap;
 }
 
@@ -461,7 +479,11 @@ header {
 
 @media(max-width:560px) {
   .writePanel {
-    grid-template-columns:1fr;
+    grid-template-columns:minmax(0,140px) auto;
+  }
+  .writePanel input {
+    width:140px;
+    font-size:.9rem;
   }
   .quizTypeRow label {
     font-size:.88rem;
@@ -475,6 +497,7 @@ header {
 <meta name="apple-mobile-web-app-title" content="Topo Trainer Friesland">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-180.png">
+
 </head>
 <body>
 <input class="stateInput" id="namesToggle" type="checkbox"/>
@@ -485,7 +508,7 @@ header {
 <header>
 <h1>Topo Trainer – Friesland</h1>
 <div class="subtitle">Plaatsen, wateren, eilanden en streken leren en overhoren op een kale kaart.</div>
-<div class="versionNumber">Versie 3.0</div>
+<div class="versionNumber">Versie 3.1</div>
 <label aria-label="Help openen" class="helpButton" for="helpToggle" id="helpButton">?</label></header>
 <section class="card controls">
 <div class="toggles">
@@ -511,7 +534,6 @@ header {
 <label for="quizTypeMix">Mix</label>
 </div>
 </div>
-
 <div class="legend">
 <div class="legendItem"><span class="legendSwatch place"></span><span>Plaatsen</span></div>
 <div class="legendItem"><span class="legendSwatch water"></span><span>Wateren</span></div>
@@ -531,10 +553,6 @@ header {
 <small id="questionLabel">Overhoring</small>
 <strong id="questionText">Druk op ‘Nieuwe vraag’.</strong>
 </div>
-</div>
-<div class="writePanel" id="writePanel">
-<input autocapitalize="words" autocomplete="off" id="answerInput" placeholder="Typ de naam" spellcheck="false" type="text"/>
-<button id="checkAnswer" type="button">Controleren</button>
 </div>
 
 <div class="quizActions">
@@ -646,7 +664,10 @@ header {
 <div class="reveal reveal-region" data-key="streek-het-bildt" style="left:50.8%;top:35.4%;transform:translate(-50%,-50%) rotate(0deg);">H e t  B i l d t</div>
 <input class="spotCheck" id="spot-streek-gaasterland" tabindex="-1" type="checkbox"/>
 <label aria-label="Gaasterland" class="hotspot hotspot-region" data-key="streek-gaasterland" data-name="Gaasterland" for="spot-streek-gaasterland" style="left:44.6%;top:85.6%"></label>
-<div class="reveal reveal-region" data-key="streek-gaasterland" style="left:45.4%;top:85.0%;transform:translate(-50%,-50%) rotate(0deg);">G a a s t e r l a n d</div></div>
+<div class="reveal reveal-region" data-key="streek-gaasterland" style="left:45.4%;top:85.0%;transform:translate(-50%,-50%) rotate(0deg);">G a a s t e r l a n d</div><div class="writePanel" id="writePanel">
+<input autocapitalize="words" autocomplete="off" id="answerInput" placeholder="Typ de naam" spellcheck="false" type="text"/>
+<button aria-label="Antwoord controleren" id="checkAnswer" type="button">OK</button>
+</div></div>
 <div class="small">Legenda: ronde punten zijn plaatsen; bredere vlakken zijn wateren, eilanden of streken. De legenda is alleen ter uitleg en is geen filter.</div>
 </section>
 <aside class="card side">
@@ -816,7 +837,7 @@ header {
 </div>
 <div class="helpSection">
 <h3>Overhoren</h3>
-<p><strong>Overhoortype:</strong> bij <strong>Aanwijzen</strong> krijg je een naam en wijs je de juiste plek aan. Bij <strong>Schrijven</strong> wordt een plek gemarkeerd en typ je de naam. <strong>Mix</strong> wisselt beide vraagsoorten door elkaar.</p><p>In Overhoren zijn de namen altijd verborgen. Bij <strong>Alleen uit geleerde lijst</strong> worden alleen de aangevinkte onderdelen gevraagd. Staat die schakelaar uit, dan kan alle topografie worden gevraagd.</p>
+<p><strong>Overhoortype:</strong> bij <strong>Aanwijzen</strong> krijg je een naam en wijs je de juiste plek aan. Bij <strong>Schrijven</strong> wordt een plek gemarkeerd en verschijnt een klein antwoordvak direct bij die plek. <strong>Mix</strong> wisselt beide vraagsoorten door elkaar.</p><p>In Overhoren zijn de namen altijd verborgen. Bij <strong>Alleen uit geleerde lijst</strong> worden alleen de aangevinkte onderdelen gevraagd. Staat die schakelaar uit, dan kan alle topografie worden gevraagd.</p>
 <p>Een onderdeel komt normaal maar één keer per ronde langs. Kies je fout, dan blijft dezelfde vraag staan tot het goede antwoord is gekozen en komt dat onderdeel later in dezelfde ronde nog eens terug.</p>
 <p>Na <strong>3 foute antwoorden</strong> verschijnt extra hulp: bij Aanwijzen wordt de juiste naam zichtbaar en bij Schrijven verschijnt de naam bij de gemarkeerde plek.</p>
 </div>
@@ -1046,9 +1067,51 @@ header {
     if (h) h.classList.add("promptTarget");
   }
 
+  function positionWritePanel() {
+    if (!current || currentQuestionType !== "write") return;
+
+    const h = hotspots.find(x => x.dataset.key === current.key);
+    if (!h) return;
+
+    const mapRect = mapWrap.getBoundingClientRect();
+    const hRect = h.getBoundingClientRect();
+
+    // Eerst zichtbaar maken zodat breedte/hoogte gemeten kunnen worden.
+    writePanel.classList.add("show");
+    writePanel.classList.remove("above");
+
+    let x = (hRect.left - mapRect.left) + (hRect.width / 2);
+    let y = (hRect.bottom - mapRect.top) + 12;
+
+    const panelWidth = writePanel.offsetWidth || 200;
+    const panelHeight = writePanel.offsetHeight || 42;
+
+    // Houd het vak horizontaal binnen de kaart.
+    const half = panelWidth / 2;
+    x = Math.max(half + 6, Math.min(mapRect.width - half - 6, x));
+
+    // Onderaan de kaart: boven de topo tonen in plaats van buiten beeld.
+    if (y + panelHeight > mapRect.height - 8) {
+      y = (hRect.top - mapRect.top) - 12;
+      writePanel.classList.add("above");
+    }
+
+    writePanel.style.left = x + "px";
+    writePanel.style.top = y + "px";
+  }
+
   function setWritePanelVisible(show) {
     writePanel.classList.toggle("show", !!show);
-    if (!show) answerInput.value = "";
+
+    if (show) {
+      // Wacht één frame zodat Safari/iPad de afmetingen kent.
+      requestAnimationFrame(positionWritePanel);
+    } else {
+      answerInput.value = "";
+      writePanel.classList.remove("above");
+      writePanel.style.left = "";
+      writePanel.style.top = "";
+    }
   }
 
   function normalizeAnswer(value) {
@@ -1446,6 +1509,13 @@ header {
   });
 
   const mapWrap = document.getElementById("mapWrap");
+  window.addEventListener("resize", function() {
+    if (writePanel.classList.contains("show")) {
+      positionWritePanel();
+    }
+  });
+
+
   mapWrap.addEventListener("contextmenu", function(e) {
     e.preventDefault();
   });
@@ -1473,5 +1543,6 @@ if ("serviceWorker" in navigator) {
   });
 }
 </script>
+
 </body>
 </html>
